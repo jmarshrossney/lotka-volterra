@@ -7,6 +7,7 @@ import numpy as np
 
 from lotka_volterra.model import Parameters, InitialConditions, vector_field, integrate
 
+
 def filename() -> str:
     timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
     return f"{timestamp}.png"
@@ -15,10 +16,22 @@ def filename() -> str:
 parser = ArgumentParser()
 parser.add_argument("--parameters", type=Parameters)
 parser.add_argument("--init_conds", type=InitialConditions)
-parser.add_argument("--t1", type=float, default=100, help="Integration window size, [0, t1]")
-parser.add_argument("-o", "--output", type=pathlib.Path, default=pathlib.Path(filename()), help="file path to save plot.")
+parser.add_argument(
+    "--t1", type=float, default=100, help="Integration window size, [0, t1]"
+)
+parser.add_argument(
+    "-o",
+    "--output",
+    type=pathlib.Path,
+    default=pathlib.Path(filename()),
+    help="file path to save plot.",
+)
 
 parser.add_argument("-c", "--config", action="config")
+
+default_config_file = pathlib.Path(__file__).parent / "default_config.yaml"
+parser.default_config_files = [default_config_file]
+
 
 def main(config: dict | None = None) -> None:
     """
@@ -41,7 +54,7 @@ def main(config: dict | None = None) -> None:
     f = vector_field(α, β, γ, δ)
 
     result = integrate(f, x0_y0, t1, dense_output=True, max_step=1e-2)
-    
+
     # `result` contains a bunch of info. We just want the solution.
     solution = result.sol
 
