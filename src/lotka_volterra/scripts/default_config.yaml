@@ -8,4 +8,9 @@ init_conds:
   x0: 1.0
   y0: 1.0
 
-t1: 100
+t1: 50
+
+n_points: 1000
+
+sigma_x: 0.1
+sigma_y: 0.05
