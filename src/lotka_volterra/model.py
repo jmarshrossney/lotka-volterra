@@ -1,10 +1,10 @@
 from dataclasses import dataclass, field, fields
 from random import randrange
-from typing import Any, Callable
+from typing import Callable
 
-import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.integrate._ivp.ivp import OdeResult  # for type annotation only
+
 
 @dataclass
 class Parameters:
@@ -17,6 +17,7 @@ class Parameters:
       gamma: The base death rate for predators.
       delta: The influence of prey on the predator growth rate.
     """
+
     alpha: float
     beta: float
     gamma: float
@@ -32,6 +33,7 @@ class Parameters:
     def to_dict_greek(self) -> dict[str, float]:
         return {"α": self.alpha, "β": self.beta, "γ": self.gamma, "δ": self.delta}
 
+
 @dataclass
 class InitialConditions:
     """
@@ -41,9 +43,10 @@ class InitialConditions:
       x0: Initial population of prey.
       y0: Initial population of predators.
     """
+
     x0: float = field(default_factory=lambda: randrange(10, 20))
     y0: float = field(default_factory=lambda: randrange(1, 8))
-    
+
     def __post_init__(self) -> None:
         if any([getattr(self, field.name) < 0 for field in fields(self)]):
             raise ValueError("Initial populations should be non-negative!")
@@ -51,7 +54,9 @@ class InitialConditions:
     def to_tuple(self) -> tuple[float, float]:
         return (self.x0, self.y0)
 
+
 type VectorField = Callable[[float, tuple[float, float]], tuple[float, float]]
+
 
 def vector_field(α: float, β: float, γ: float, δ: float) -> VectorField:
     """
@@ -65,6 +70,7 @@ def vector_field(α: float, β: float, γ: float, δ: float) -> VectorField:
 
     Note that there is no time (t) dependence.
     """
+
     def f(t: float, x_y: tuple[float, float]) -> tuple[float, float]:
         x, y = x_y
         dxdt = α * x - β * x * y
@@ -74,7 +80,9 @@ def vector_field(α: float, β: float, γ: float, δ: float) -> VectorField:
     return f
 
 
-def integrate(f: VectorField, x0_y0: tuple[float, float], t1: float, **kwargs) -> OdeResult:
+def integrate(
+    f: VectorField, x0_y0: tuple[float, float], t1: float, **kwargs
+) -> OdeResult:
     """
     A thin wrapper for scipy.integrate.solve_ivp that integrates a vector field.
 
