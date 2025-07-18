@@ -1,0 +1,11 @@
+parameters:
+  alpha: 0.67
+  beta: 1.33
+  gamma: 1.0
+  delta: 1.0
+
+init_conds:
+  x0: 1.0
+  y0: 1.0
+
+t1: 50
