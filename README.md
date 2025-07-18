@@ -58,3 +58,14 @@ uv run ruff check
 in the root of the repository.
 
 If you have configured pre-commit hooks, this will be run automatically upon `git commit`.
+
+
+## To do
+
+- Better loss function
+- Optimise some, but not all, parameters
+- Better visualisation
+- Stochastic optimisation
+- [Generalised system](https://en.wikipedia.org/wiki/Generalized_Lotka%E2%80%93Volterra_equation)
+- [Ensemble of systems](https://en.wikipedia.org/wiki/Random_generalized_Lotka%E2%80%93Volterra_model)
+
