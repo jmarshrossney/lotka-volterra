@@ -3,7 +3,7 @@ from random import randrange
 from typing import Callable
 
 import equinox
-from diffrax import diffeqsolve, Dopri5, ODETerm
+import diffrax
 import jax
 import jax.numpy as jnp
 import jax.tree_util
@@ -66,12 +66,13 @@ def vector_field(t: jax.Array, x_y: jax.Array, params: list[jax.Array]) -> jax.A
 
 
 def integrate(f: VectorField, x0_y0: jax.Array, t1: float, dt0: float, **kwargs):
-    return diffeqsolve(
-        terms=ODETerm(f),
-        solver=Dopri5(),  # equivalent to RK45 in scipy
+    return diffrax.diffeqsolve(
+        terms=diffrax.ODETerm(f),
+        solver=diffrax.Dopri5(),  # equivalent to RK45 in scipy
         t0=0,
         t1=t1,
         dt0=dt0,
         y0=x0_y0,
         **kwargs,
     )
+

@@ -88,7 +88,8 @@ def main(config: dict | None = None) -> None:
     x_y += δx_δy
 
     # Save output to .txt
-    np.savetxt(f"{file_stem}.txt", x_y, fmt="%.4e")
+    t_x_y = np.concatenate([np.expand_dims(t, 0), x_y])
+    np.savetxt(f"{file_stem}.txt", t_x_y, fmt="%.4e")
 
     # Plot data
     x, y = x_y

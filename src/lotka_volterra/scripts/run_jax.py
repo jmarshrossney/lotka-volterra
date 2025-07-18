@@ -67,6 +67,7 @@ def main(config: dict | None = None) -> None:
         f, x0_y0, t1, dt0=0.1, args=parameters.as_tuple(), saveat=SaveAt(ts=t)
     )
     # x_y = solution.evaluate(t)
+    print(solution.ys.shape)
     x_y = solution.ys.transpose()
     print(x_y.shape)
 
